@@ -1,5 +1,33 @@
 # Copy Files
 
+## Steps to make Express Server with All Requirements
+
+### From Scratch
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+
+### Cloning this README
+
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+
 ## NPM Dependencies
 
 ```
@@ -122,4 +150,81 @@ paste in login information
 require('dotenv').config();
 ```
 
+// Config.js
+
+```
+module.exports = {
+  development: {
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+        host: process.env.DB_HOST,
+    dialect: 'postgres',
+  }
+};
+```
+
 In config file change config.json to config.js
+
+## Foreign Key Setup
+
+// Modify `associate()` function in models
+
+Example:
+
+**\*Ideas** had foreign key from **Users\***
+
+Users Table
+
+```
+static associate(models) {
+      // define association here
+      Users.hasMany(models.Ideas, {
+        foreignKey: "userid",
+      });
+    }
+```
+
+Ideas Table
+
+```
+static associate(models) {
+      // define association here
+      Ideas.belongsTo(models.Users, {
+        foreignKey: "userid",
+        onDelete: "CASCADE",
+      });
+    }
+```
+
+Migrations
+
+Users Table
+
+```
+id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+```
+
+Ideas Table
+
+```
+ userid: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        references: {
+          model: "Users",
+          key: "id",
+          as: "userid",
+        },
+      },
+```
